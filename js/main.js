@@ -8,7 +8,7 @@ var snake;
 var food;
 var gameloop;
 var direction = 'down';
-var speed = 1000
+var speed = 280
 
 /* 
 
@@ -40,9 +40,11 @@ var drawModule = (function() {
     */
 
     var scoreText = function() {
-            var score_text = "Score: " + score;
             ctx.fillStyle = 'blue';
+            var score_text = "Score: " + score;
             ctx.fillText(score_text, 145, h - 5);
+            var speed_text = "Speed: " + speed;
+            ctx.fillText(speed_text, 200, h - 5);
         }
         /* 
         create snake
@@ -94,7 +96,7 @@ var drawModule = (function() {
         if (snakeX == food.x && snakeY == food.y) {
             var tail = { x: snakeX, y: snakeY }; //Create a new head instead of moving the tail
             score++;
-            speed -= 50;
+            speed += 10; // accelerate snake
             createFood(); //Create new food
         } else {
             var tail = snake.pop(); //pops out the last cell
@@ -110,10 +112,6 @@ var drawModule = (function() {
 
         pizza(food.x, food.y);
         scoreText();
-        setTimeout(function() {
-
-            requestAnimationFrame(move);
-        }, speed)
     }
 
 
@@ -153,11 +151,7 @@ var drawModule = (function() {
     var init = function() {
         drawSnake();
         createFood();
-        //gameloop = setInterval(move, 180);
-        setTimeout(function() {
-
-            requestAnimationFrame(move);
-        }, speed)
+        gameloop = setInterval(move, speed);
     }
 
 
